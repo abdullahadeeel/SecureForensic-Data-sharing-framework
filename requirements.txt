@@ -1,0 +1,6 @@
+tk
+sqlite3
+smtplib
+email
+hashlib
+
