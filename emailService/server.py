@@ -2,9 +2,16 @@ from flask import Flask, request, jsonify
 from secureforensics_fyp.database_helper import get_db_connection
 from secureforensics_fyp.emailService.sendMail import SendMail
 from flask_mail import Mail
+from .config import Config
+
 
 app = Flask(__name__)
 mail = Mail()
+
+app.config.from_object(Config)
+
+mail.init_app(app)
+
 
 @app.route("/send-mail/", methods=["POST"])
 def handle_sendmail():
