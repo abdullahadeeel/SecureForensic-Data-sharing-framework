@@ -4,7 +4,7 @@ import re # Regular expressions for validation
 from PyQt5 import QtWidgets, QtCore, QtGui
 import os
 
-from .utils.userUtils import send_verification_token
+from utils.userUtils import send_verification_token, hash_text
 
 # =======================================================
 # CREATE DATABASE TABLES (11 TABLES) - Preserved
@@ -1068,8 +1068,7 @@ class SigninPage(QtWidgets.QWidget):
             if not _ok:
                 self.errorLabel.setText(message)
             else:
-                self.errorLabel.setText("Account is not verified, check your email inbox")
-            
+                self.errorLabel.setText("Account is not verified, check your email inbox")    
         else:
             self.open_dashboard_by_role(user['role'], user['email'])
     def open_dashboard_by_role(self, role, name):
