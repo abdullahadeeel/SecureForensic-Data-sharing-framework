@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify
-from secureforensics_fyp.database_helper import get_db_connection
-from secureforensics_fyp.emailService.sendMail import SendMail
+from ..database_helper import get_db_connection
+from emailService.sendMail import SendMail
 from flask_mail import Mail
-from .config import Config
+from emailService.config import Config
+
+from dotenv import load_dotenv
 
 
+load_dotenv()
 app = Flask(__name__)
 mail = Mail()
 
