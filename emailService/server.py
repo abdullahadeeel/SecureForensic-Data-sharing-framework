@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
-from ..database_helper import get_db_connection
-from emailService.sendMail import SendMail
+from secureforensic_fyp.emailService.database_helper import get_db_connection
+from secureforensic_fyp.emailService.sendMail import SendEmail
 from flask_mail import Mail
-from emailService.config import Config
+from secureforensic_fyp.emailService.Config import Config
 
 from dotenv import load_dotenv
 
@@ -21,11 +21,9 @@ def handle_sendmail():
     body = request.get_json()
 
     email = body.get('email')
-    token = body.get('token')
-    
+    token = hashlib.sha256(email.encode()).hexdigest()    
     conn = get_db_connection()
     cursor = conn.cursor()
-    user = cursor.execute("select email from users where email = ?", (email,)).findone()
 
     
     mail_manager = SendMail(

@@ -26,11 +26,10 @@ def create_users_db():
         password TEXT NOT NULL,
         email TEXT,
         role TEXT, 
-        verfication_token TEXT,
+        verification_token TEXT,
         is_verified INTEGER DEFAULT 0,
         status INTEGER NOT NULL DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        status TEXT
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )''')
 
     # 2. forensic_files table [cite: 5, 6, 7]
