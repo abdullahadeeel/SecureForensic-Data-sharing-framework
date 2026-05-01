@@ -1,4 +1,5 @@
 import requests
+import hashlib
 
 __SERVER = 'http://127.0.0.1:5000'
 
@@ -16,3 +17,8 @@ def send_verification_token(email):
 
     except requests.exceptions.RequestException:
         return "Unable to process request right now. Please try later.", False
+
+
+
+def hash_text(password):
+    return hashlib.sha256(password.encode()).hexdigest()

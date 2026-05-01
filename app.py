@@ -853,7 +853,7 @@ class SignupPage(QtWidgets.QWidget):
         """Final validation and database insertion on button click."""
         name = self.name.text().strip()
         email = self.email.text().strip()
-        password = self.password.text()
+        password = hash_text(self.password.text())
         role = self.role.currentText()
 
         self.validate_live() 
@@ -1047,7 +1047,7 @@ class SigninPage(QtWidgets.QWidget):
 
     def verify_login(self):
         email = self.email.text().strip()
-        password = self.password.text()
+        password = hash_text(self.password.text())
 
         if not email or not password:
             self.errorLabel.setText("Please enter both Email and Password.")
@@ -1059,14 +1059,19 @@ class SigninPage(QtWidgets.QWidget):
         user = c.fetchone()
         conn.close()
 
-        if user:
-            role = user[0]
-            name = user[1]
-            # Smoothly open dashboard
-            self.open_dashboard_by_role(role, name)
+        if not user:
+            self.errorLabel.setText("Invalid Email or Password")
+        elif not user.is_verified:
+            
+            message, _ok = send_verification_token(email)
+
+            if not _ok:
+                self.errorLabel.setText(message)
+            else:
+                self.errorLabel.setText("Account is not verified, check your email inbox")
+            
         else:
-            self.errorLabel.setText("Invalissword!")
-    
+            self.open_dashboard_by_role(user['role'], user['email'])
     def open_dashboard_by_role(self, role, name):
         global dashboard_window 
         if role == "Sender":
